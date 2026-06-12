@@ -1,0 +1,98 @@
+RUNBOOK: CPU_SPIKE
+==================
+Incident Type: CPU Spike - Runaway Process
+Severity: HIGH
+Service: compute-service
+
+DESCRIPTION:
+------------
+A CPU spike occurs when one or more processes consume abnormally high CPU resources,
+causing degraded performance across the entire system. This can lead to request
+timeouts, slow response times, and cascading failures in dependent services.
+CPU spikes are one of the most common infrastructure incidents in production systems.
+
+SYMPTOMS:
+---------
+- CPU usage consistently above 85% for more than 2 minutes
+- Load average exceeds number of CPU cores (e.g. load > 8 on 8-core system)
+- Process scheduler showing high run queue length
+- Increased response latency across all services (800ms - 2000ms)
+- Job queues backing up with pending tasks
+- Worker processes becoming unresponsive
+- Memory usage moderately elevated (60-75%) due to process thrashing
+- Disk I/O slightly elevated due to swap usage
+
+LOG PATTERNS TO LOOK FOR:
+--------------------------
+- "High CPU detected on worker-X: XX.X%"
+- "Job queue backlog growing: XXX pending tasks"
+- "Load average exceeded threshold: XX.X"
+- "Process X consuming XX% CPU"
+- "Request timeout after XXXXms"
+- "Worker thread pool exhausted"
+- "Scheduler unable to process tasks - CPU bound"
+
+COMMON ROOT CAUSES:
+-------------------
+1. Runaway process — infinite loop or deadlock in application code
+2. Sudden traffic spike — legitimate traffic increase beyond capacity
+3. Inefficient algorithm — O(n²) or worse complexity triggered by large dataset
+4. Memory leak causing excessive garbage collection
+5. Cryptocurrency mining malware or unauthorized process
+6. Batch job running during peak hours
+7. Database query returning unexpectedly large result set
+8. Recursive function call without proper termination
+9. Third party library bug causing CPU spin
+10. Missing pagination on API endpoint processing large datasets
+
+DIAGNOSTIC STEPS:
+-----------------
+1. Run: top -c -b -n 1 | head -20 (identify top CPU consuming processes)
+2. Run: ps aux --sort=-%cpu | head -10 (detailed process list)
+3. Run: pidstat -u 1 5 (per-process CPU usage over time)
+4. Check application logs for runaway loops or recursive calls
+5. Review recent deployments - was new code deployed in last 30 minutes?
+6. Check for scheduled batch jobs that may have triggered
+7. Review traffic metrics - is this a legitimate traffic spike?
+8. Check for any pending database queries that may be CPU intensive
+
+IMMEDIATE REMEDIATION STEPS:
+-----------------------------
+Step 1 (0-2 min): Identify the offending process
+  - kill -9 <PID> if process is confirmed runaway
+  - Alert on-call developer immediately
+
+Step 2 (2-5 min): Reduce load
+  - Enable circuit breaker to shed excess traffic
+  - Scale up compute instances (add 2-3 more workers)
+  - Move batch jobs to off-peak hours
+
+Step 3 (5-10 min): Stabilize
+  - Verify CPU returns to normal after process termination
+  - Monitor for recurrence over next 15 minutes
+  - Check dependent services for cascading failures
+
+Step 4 (10-30 min): Root cause fix
+  - Review code changes from last deployment
+  - Add CPU profiling to identify bottleneck
+  - Implement rate limiting if traffic spike was cause
+
+PREVENTION:
+-----------
+- Set CPU limits on all containers (e.g. max 80% per container)
+- Implement circuit breakers for all external calls
+- Schedule batch jobs during off-peak hours (2AM - 5AM)
+- Add CPU usage alerts at 70% (warn) and 85% (critical)
+- Regular load testing to identify capacity limits
+- Code review for algorithmic complexity
+- Implement request timeouts on all API endpoints
+
+ESCALATION:
+-----------
+- If CPU remains above 85% for more than 10 minutes → escalate to L2
+- If multiple services affected → declare P1 incident
+- If suspected security breach → engage security team immediately
+
+RESOLUTION TIME: 5-15 minutes
+RECURRENCE RISK: MEDIUM
+BUSINESS IMPACT: Degraded performance, potential SLA breach

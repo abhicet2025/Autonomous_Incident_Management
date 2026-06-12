@@ -1,0 +1,9 @@
+data/chroma_db/
+data/ml_model.pkl
+data/ml_model_metadata.json
+data/ml_training_data.csv
+data/tickets/
+data/*.json
+__pycache__/
+*.pyc
+.streamlit/

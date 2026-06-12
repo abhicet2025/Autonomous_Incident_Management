@@ -1,0 +1,149 @@
+RUNBOOK: SERVICE_CRASH
+=======================
+Incident Type: Microservice Crash Loop
+Severity: CRITICAL
+Service: orchestration
+
+DESCRIPTION:
+------------
+A microservice crash loop occurs when a service repeatedly starts, fails, and
+restarts in a continuous cycle. In Kubernetes environments this appears as
+CrashLoopBackOff status. Each restart attempt takes longer due to exponential
+backoff, meaning the service becomes progressively less available over time.
+Crash loops are CRITICAL because they indicate a fundamental problem preventing
+the service from running at all - not just degraded performance. Dependent
+services will fail completely as this service becomes unavailable.
+
+SYMPTOMS:
+---------
+- Error rate extremely high (40-80%) as service is unavailable
+- Pod restart count increasing rapidly (5, 10, 18, 30+)
+- CrashLoopBackOff status in Kubernetes
+- Health check failures accumulating
+- Low CPU and memory (service keeps dying before consuming resources)
+- Latency paradoxically low (100-300ms) as requests fail fast
+- Dependent services reporting connection refused errors
+- Circuit breakers opening on downstream services
+- Alert storm from multiple dependent services
+- Service endpoint returning 503 Service Unavailable
+
+LOG PATTERNS TO LOOK FOR:
+--------------------------
+- "Pod svc-X CrashLoopBackOff - restarts: XX"
+- "Service svc-X health check failed X times"
+- "Restarting service svc-X - exit code XXX"
+- "Back-off restarting failed container"
+- "Liveness probe failed: connection refused"
+- "Readiness probe failed: HTTP probe failed"
+- "Container svc-X failed with exit code 1"
+- "OOMKilled - container exceeded memory limit"
+- "Error: Cannot find module X"
+- "FATAL: configuration error - missing required env var"
+- "panic: runtime error: invalid memory address"
+- "segmentation fault (core dumped)"
+
+EXIT CODES AND MEANINGS:
+------------------------
+Exit Code 0   : Intentional shutdown (not a crash)
+Exit Code 1   : Application error (check app logs)
+Exit Code 137 : OOMKilled - exceeded memory limit
+Exit Code 139 : Segmentation fault
+Exit Code 143 : Graceful termination (SIGTERM)
+Exit Code 255 : Exit status out of range (application bug)
+
+COMMON ROOT CAUSES:
+-------------------
+1. Missing required environment variable or configuration
+2. Cannot connect to dependency (database, cache, external API)
+3. OOMKilled - container memory limit too low
+4. Application code bug causing panic/segfault on startup
+5. Missing or corrupted dependency (npm package, jar file)
+6. Invalid configuration file (malformed YAML, JSON)
+7. Port already in use by another process
+8. Insufficient permissions to access required resources
+9. Startup probe timeout too aggressive
+10. Recent bad deployment with buggy code
+11. Secret or configmap not mounted correctly
+12. Database schema migration failure on startup
+
+DIAGNOSTIC STEPS:
+-----------------
+1. Check pod status and restart count:
+   kubectl get pods -n <namespace>
+   kubectl describe pod <pod-name> -n <namespace>
+
+2. Check current and previous container logs:
+   kubectl logs <pod-name> -n <namespace>
+   kubectl logs <pod-name> -n <namespace> --previous
+
+3. Check events for the pod:
+   kubectl get events -n <namespace> --sort-by='.lastTimestamp'
+
+4. Check resource limits:
+   kubectl describe pod <pod-name> | grep -A 5 Limits
+
+5. Verify environment variables and secrets:
+   kubectl exec <pod-name> -- env | grep -i config
+   kubectl get secret <secret-name> -o yaml
+
+6. Check recent deployments:
+   kubectl rollout history deployment/<name>
+
+7. Test connectivity to dependencies:
+   kubectl exec <pod-name> -- nc -zv <db-host> <db-port>
+
+8. Check for OOMKilled events:
+   kubectl describe pod <pod-name> | grep -i oom
+
+IMMEDIATE REMEDIATION STEPS:
+-----------------------------
+Step 1 (0-2 min): Assess and stabilize
+  - Check exit code to determine crash type
+  - Review last 50 lines of previous container logs
+  - Check if recent deployment caused this:
+    kubectl rollout history deployment/<name>
+
+Step 2 (2-5 min): Quick fixes based on exit code
+  - Exit 137 (OOM): Increase memory limit immediately
+    kubectl set resources deployment/<name> --limits=memory=2Gi
+  - Exit 1 (App error): Check for missing env vars or config
+    kubectl describe pod <pod-name> | grep -A 10 Environment
+  - Exit 1 (Bad deploy): Rollback immediately
+    kubectl rollout undo deployment/<name>
+
+Step 3 (5-15 min): Restore service
+  - Verify rollback successful:
+    kubectl rollout status deployment/<name>
+  - Check health endpoints returning 200
+  - Verify dependent services recovering
+  - Monitor restart count - should stop at 0
+
+Step 4 (15-60 min): Root cause fix
+  - If config issue: fix configmap or secret
+  - If code bug: fix and redeploy with proper testing
+  - If resource limit: right-size based on actual usage
+  - If dependency issue: fix connectivity or add retry logic
+
+PREVENTION:
+-----------
+- Implement proper startup probes with generous timeouts
+- Set resource requests AND limits based on profiling
+- Use readiness probes to prevent traffic before ready
+- Implement graceful shutdown handling (SIGTERM handler)
+- Validate all required env vars on startup with clear error messages
+- Use init containers to verify dependencies before main container starts
+- Implement proper retry logic with exponential backoff for dependencies
+- Blue-green or canary deployments to catch issues before full rollout
+- Comprehensive integration tests before deployment
+- Set up alerting on restart count > 3
+
+ESCALATION:
+-----------
+- If rollback fails → engage platform team immediately
+- If multiple services crashing → potential infrastructure issue
+- If data corruption suspected during crash → engage DBA
+- If security related crash → engage security team
+
+RESOLUTION TIME: 2-10 minutes with rollback, longer for root cause
+RECURRENCE RISK: LOW after root cause fix
+BUSINESS IMPACT: CRITICAL - complete service unavailability

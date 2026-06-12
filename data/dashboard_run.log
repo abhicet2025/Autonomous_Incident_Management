@@ -1,0 +1,99 @@
+[0;93m2026-06-12 09:02:19.927920845 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card26": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card26/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928253981 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card54": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card54/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928271566 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card5": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card5/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928284835 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card16": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card16/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928298453 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card44": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card44/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928312535 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card192": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card192/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928325341 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card34": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card34/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928338573 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card62": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card62/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928351501 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card24": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card24/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928364499 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card52": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card52/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928377310 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card3": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card3/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928389560 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card14": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card14/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928402463 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card42": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card42/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928415278 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card32": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card32/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928428554 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card60": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card60/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928441451 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card22": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card22/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928457901 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card50": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card50/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928646493 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card12": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card12/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928663420 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card40": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card40/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928676582 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card30": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card30/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928689479 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card59": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card59/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928703488 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card20": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card20/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928759565 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card10": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card10/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928775467 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card39": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card39/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928788910 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card29": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card29/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928842856 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card8": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card8/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928856725 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card19": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card19/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928869883 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card47": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card47/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928882116 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card37": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card37/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928894629 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card27": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card27/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928907812 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card55": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card55/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928920393 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card6": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card6/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928974838 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card45": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card45/device/vendor"[m
+[0;93m2026-06-12 09:02:19.928988287 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card35": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card35/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929001122 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card63": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card63/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929060679 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card53": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card53/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929075567 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card4": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card4/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929088514 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card15": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card15/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929101379 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card43": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card43/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929157628 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card61": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card61/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929170685 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card23": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card23/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929183903 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card51": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card51/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929196666 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card2": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card2/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929209166 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card13": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card13/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929261451 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card31": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card31/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929275837 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card21": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card21/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929321247 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card11": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card11/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929334661 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card58": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card58/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929389702 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card48": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card48/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929405412 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card38": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card38/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929417987 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card28": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card28/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929430940 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card56": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card56/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929443192 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card7": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card7/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929457006 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card18": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card18/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929469189 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card46": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card46/device/vendor"[m
+[0;93m2026-06-12 09:02:19.929481760 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card36": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card36/device/vendor"[m
+[1;31m2026-06-12 09:02:19.963675668 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 6735, index: 0, mask: {1, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:19.963745795 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 6736, index: 1, mask: {2, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:19.974773886 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 6790, index: 55, mask: {56, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:19.974800468 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 6791, index: 56, mask: {57, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:21.811472783 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 6846, index: 0, mask: {1, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:21.811497247 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 6847, index: 1, mask: {2, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:21.813218438 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 6901, index: 55, mask: {56, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:21.813241098 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 6902, index: 56, mask: {57, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:23.357744814 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 6959, index: 0, mask: {1, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:23.357767224 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 6960, index: 1, mask: {2, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:23.362730576 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 7015, index: 56, mask: {57, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+[1;31m2026-06-12 09:02:23.362728361 [E:onnxruntime:Default, env.cc:228 ThreadMain] pthread_setaffinity_np failed for thread: 7014, index: 55, mask: {56, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.[m
+
+============================================================
+  AUTONOMOUS INCIDENT MANAGEMENT SYSTEM
+  TCS & AMD AI Hackathon — AGENTS_026
+============================================================
+  [Orchestrator] Initializing all agents...
+  [MLScorer] Model loaded — trained on 200 samples
+  [ChromaDB] Collection: incident_knowledge | Chunks: 86
+  [ChromaDB] Collection: incident_knowledge | Chunks: 86
+  [Orchestrator] All agents ready!
+
+  ✅ System ready — all agents initialized
+
+────────────────────────────────────────────────────────────
+  📥 Incident : INC-20260612090219
+  Scenario   : CPU_SPIKE | Service: compute-service
+────────────────────────────────────────────────────────────
+  🚨 Anomaly detected — score: 60 | threshold hits: 2
+  [RCAAgent] Analyzing: INC-20260612090219 | compute-service | CRITICAL
+  [RCAAgent] RAG: 4884.52ms | LLM calling...
+  [RCAAgent] LLM: 6170.31ms | 939 tokens
+  [DecisionAgent] INC-20260612090219 → HITL | Confidence: 77.2% | Risk: HIGH
+  ⏸  Added to HITL portal queue: INC-20260612090219
+
+  ───────────────────────────────────────────────────────
+  RESULT: INC-20260612090219 → DECISION_MADE | Decision: HITL
+  Root cause : A runaway process on worker-3 is causing a CPU spike, leading to high latency an...
+  Confidence : 95%
+  Tokens     : 939
+  LLM latency: 6170.31ms
+  ⏸  Awaiting human review in HITL Portal

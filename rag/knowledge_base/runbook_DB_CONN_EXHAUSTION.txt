@@ -1,0 +1,123 @@
+RUNBOOK: DB_CONN_EXHAUSTION
+============================
+Incident Type: Database Connection Pool Exhausted
+Severity: CRITICAL
+Service: database-service
+
+DESCRIPTION:
+------------
+Database connection pool exhaustion occurs when all available database connections
+are in use and new requests cannot acquire a connection. This is one of the most
+critical incidents as it can completely halt application functionality. Modern
+applications use connection pools to reuse database connections efficiently, but
+when the pool is exhausted, all new database operations fail immediately.
+
+SYMPTOMS:
+---------
+- Error rate suddenly spikes above 15-35%
+- Latency increases dramatically (3000ms - 8000ms)
+- All API endpoints that require database access start failing
+- Connection wait timeout errors appearing in logs
+- Active connections at maximum (e.g. 100/100)
+- Memory usage elevated (70-85%) due to queued requests
+- Disk I/O elevated (60-90%) as database struggles
+- Downstream services reporting cascading failures
+- Health check endpoints failing
+
+LOG PATTERNS TO LOOK FOR:
+--------------------------
+- "Connection pool exhausted - waiting for connection"
+- "Request timeout after XXXXms - DB unavailable"
+- "Active connections: 100/100"
+- "Failed to acquire DB connection after X retries"
+- "HikariPool - Connection is not available, request timed out after XXXXms"
+- "Too many connections to database"
+- "FATAL: remaining connection slots are reserved"
+- "Connection refused - max_connections reached"
+- "Deadlock detected on resource"
+- "Lock wait timeout exceeded"
+
+COMMON ROOT CAUSES:
+-------------------
+1. Traffic spike overwhelming connection pool capacity
+2. Connection leak - connections not being released after use
+3. Long running transactions holding connections open
+4. Deadlock causing transactions to hang indefinitely
+5. Database server performance degradation causing slow queries
+6. Insufficient connection pool size for current load
+7. Missing connection timeout configuration
+8. ORM misconfiguration opening too many connections
+9. Batch job opening connections without closing them
+10. Database maintenance causing temporary unavailability
+11. Network issues causing connections to hang
+12. Missing connection validation causing stale connections
+
+DIAGNOSTIC STEPS:
+-----------------
+1. Check current connections:
+   SELECT count(*) FROM pg_stat_activity; (PostgreSQL)
+   SHOW STATUS LIKE 'Threads_connected'; (MySQL)
+
+2. Find long running queries:
+   SELECT pid, now()-query_start as duration, query
+   FROM pg_stat_activity
+   WHERE state = 'active'
+   ORDER BY duration DESC;
+
+3. Check for deadlocks:
+   SELECT * FROM pg_locks WHERE NOT granted;
+
+4. Review connection pool metrics in APM tool
+5. Check application logs for connection leak patterns
+6. Review recent deployments for ORM configuration changes
+7. Check database server CPU and memory usage
+8. Verify network connectivity between app and database
+
+IMMEDIATE REMEDIATION STEPS:
+-----------------------------
+Step 1 (0-2 min): Emergency connection recovery
+  - Kill long running queries (> 30 seconds)
+  - SELECT pg_terminate_backend(pid) FROM pg_stat_activity
+    WHERE now()-query_start > interval '30 seconds';
+  - Restart connection pool without full app restart if possible
+
+Step 2 (2-5 min): Reduce load on database
+  - Enable read replicas to distribute read traffic
+  - Activate database query cache
+  - Enable circuit breaker to reject new requests temporarily
+  - Scale up application instances to distribute connections
+
+Step 3 (5-10 min): Increase capacity
+  - Increase connection pool size (e.g. from 100 to 150)
+  - Add read replicas if read-heavy workload
+  - Increase database max_connections if server has capacity
+
+Step 4 (10-30 min): Fix root cause
+  - If connection leak: identify and fix code not releasing connections
+  - If slow queries: add missing database indexes
+  - If traffic spike: implement caching layer (Redis)
+  - If deadlock: review transaction isolation levels
+
+PREVENTION:
+-----------
+- Set connection pool size based on: (core_count * 2) + effective_spindle_count
+- Always use connection pool with proper min/max settings
+- Set connection timeout (e.g. 30 seconds max wait)
+- Implement connection validation (test-on-borrow)
+- Add database connection monitoring alerts at 80% pool usage
+- Use read replicas for read-heavy workloads
+- Implement query timeout at application level (e.g. 10 seconds)
+- Regular review of slow query logs
+- Implement Redis caching for frequently accessed data
+- Use database connection leak detection tools
+
+ESCALATION:
+-----------
+- Immediate P1 if all API endpoints are failing
+- Engage DBA team if query optimization needed
+- Engage platform team if database scaling required
+- If data corruption suspected → engage data team immediately
+
+RESOLUTION TIME: 5-10 minutes
+RECURRENCE RISK: HIGH without root cause fix
+BUSINESS IMPACT: CRITICAL - complete service outage possible

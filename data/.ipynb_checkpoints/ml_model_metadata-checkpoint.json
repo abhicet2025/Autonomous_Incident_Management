@@ -1,0 +1,16 @@
+{
+  "training_samples": 200,
+  "features": [
+    "cpu_usage",
+    "memory_usage",
+    "error_rate",
+    "latency_ms",
+    "disk_io"
+  ],
+  "n_estimators": 100,
+  "contamination": 0.05,
+  "training_time_sec": 0.09,
+  "trained_at": "2026-06-09T18:27:40.770293+00:00",
+  "model_type": "IsolationForest",
+  "data_source": "Synthetic normal infrastructure metrics"
+}

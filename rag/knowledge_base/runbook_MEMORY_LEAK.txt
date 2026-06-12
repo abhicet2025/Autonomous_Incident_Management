@@ -1,0 +1,131 @@
+RUNBOOK: MEMORY_LEAK
+=====================
+Incident Type: Memory Leak - Gradual Exhaustion
+Severity: HIGH
+Service: app-service
+
+DESCRIPTION:
+------------
+A memory leak occurs when an application continuously allocates memory but fails
+to release it after use. Unlike sudden spikes, memory leaks are gradual and
+insidious - the system appears healthy initially but slowly degrades over hours
+or days. By the time symptoms are obvious, the system is often critically low
+on memory. Memory leaks are particularly dangerous because they can cause
+complete system crashes if left unaddressed.
+
+SYMPTOMS:
+---------
+- Memory usage gradually climbing over time (88-98%)
+- Heap usage increasing despite low traffic
+- Garbage collector running more frequently
+- GC pause times increasing significantly
+- Response latency gradually increasing (1500ms - 4000ms)
+- Error rate slowly climbing (5-15%)
+- Application becomes sluggish over time
+- JVM OutOfMemoryError appearing in logs
+- RSS memory growing consistently (+50-200MB per hour)
+- System swapping to disk causing disk I/O spike
+- OOM killer terminating processes
+- Application restart temporarily fixes symptoms (classic sign)
+
+LOG PATTERNS TO LOOK FOR:
+--------------------------
+- "Heap usage at XX.X% - GC pressure increasing"
+- "OutOfMemoryError in svc-X - heap space"
+- "RSS memory growing: XXXXMb (+XXXMb in last 5min)"
+- "GC overhead limit exceeded"
+- "java.lang.OutOfMemoryError: Java heap space"
+- "Cannot allocate memory"
+- "Killed process XXXX (java) total-vm:XXXXXX"
+- "Full GC (Ergonomics) pause time: XXXXms"
+- "Tenured generation at XX% capacity"
+- "Native memory allocation failed"
+
+COMMON ROOT CAUSES:
+-------------------
+1. Unclosed resources - file handles, database connections, streams not closed
+2. Static collections growing indefinitely (HashMap, List never cleared)
+3. Event listeners registered but never removed
+4. Caching without eviction policy (unbounded cache)
+5. Session objects not being invalidated
+6. Thread local variables not cleaned up
+7. String interning causing permanent generation overflow
+8. Third party library with known memory leak
+9. Circular references preventing garbage collection
+10. Large object allocation in tight loops
+11. ClassLoader leak in hot deployment scenarios
+12. Native memory leak in JNI code
+
+DIAGNOSTIC STEPS:
+-----------------
+1. Capture heap dump:
+   jmap -dump:format=b,file=heap.hprof <PID>
+
+2. Analyze GC logs:
+   -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log
+
+3. Monitor memory over time:
+   watch -n 5 'ps aux --sort=-%mem | head -5'
+
+4. Check for unclosed resources:
+   lsof -p <PID> | wc -l (file handle count)
+   netstat -np | grep <PID> (network connections)
+
+5. Use memory profiler:
+   Java: VisualVM, JProfiler, YourKit
+   Python: memory_profiler, tracemalloc
+   Node.js: clinic.js, heapdump
+
+6. Review recent code changes for collection usage
+7. Check cache configuration for eviction policies
+8. Monitor object creation rate vs GC collection rate
+
+IMMEDIATE REMEDIATION STEPS:
+-----------------------------
+Step 1 (0-5 min): Stabilize system
+  - Restart affected service instance immediately
+  - Shift traffic to healthy instances
+  - Increase JVM heap size temporarily:
+    -Xmx4g (increase max heap to 4GB)
+
+Step 2 (5-15 min): Prevent recurrence during investigation
+  - Enable automatic restart when memory exceeds 90%
+  - Add memory usage alert at 75% for early warning
+  - Schedule rolling restarts every 6 hours as temporary fix
+  - Enable GC logging for analysis
+
+Step 3 (15-60 min): Identify leak source
+  - Analyze heap dump with Eclipse MAT or VisualVM
+  - Look for objects with unexpectedly high retention
+  - Review Dominator Tree to find largest retained objects
+  - Check for collections growing beyond expected size
+
+Step 4 (1-4 hours): Fix and deploy
+  - Fix identified memory leak in code
+  - Add resource cleanup in finally blocks
+  - Implement proper cache eviction policies
+  - Add memory profiling to CI/CD pipeline
+
+PREVENTION:
+-----------
+- Always use try-with-resources for closeable objects
+- Implement bounded caches with eviction (LRU, TTL)
+- Regular heap analysis in staging environment
+- Add memory leak detection to CI/CD pipeline
+- Set JVM heap size to 70% of available RAM maximum
+- Implement memory usage alerts at 70% (warn) and 85% (critical)
+- Regular code review for collection usage patterns
+- Use weak references for optional cached objects
+- Implement connection pool leak detection
+- Load test with extended duration to catch gradual leaks
+
+ESCALATION:
+-----------
+- If memory above 95% → immediate restart required
+- If multiple instances affected simultaneously → P1 incident
+- If heap dump analysis inconclusive → engage JVM specialist
+- If native memory leak suspected → engage platform team
+
+RESOLUTION TIME: 15-60 minutes for immediate fix, hours for root cause
+RECURRENCE RISK: HIGH until code fix deployed
+BUSINESS IMPACT: Gradual degradation leading to complete outage

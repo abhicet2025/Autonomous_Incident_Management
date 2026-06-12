@@ -1,0 +1,139 @@
+RUNBOOK: DISK_FULL
+==================
+Incident Type: Disk Space Critical
+Severity: CRITICAL
+Service: storage-service
+
+DESCRIPTION:
+------------
+Disk space exhaustion occurs when available storage on a volume reaches critical
+levels, causing write operations to fail. This is a CRITICAL incident because
+it affects multiple systems simultaneously - databases cannot write transactions,
+applications cannot write logs, and the operating system itself may become
+unstable. Unlike other incidents, disk full situations can cause data corruption
+if databases are mid-transaction when space runs out. Immediate action is
+required to prevent data loss and system instability.
+
+SYMPTOMS:
+---------
+- Disk I/O at critical levels (90-99%)
+- Error rate elevated (10-25%) as write operations fail
+- Latency increased (2000ms - 6000ms) as writes are retried
+- Database transaction log cannot grow
+- Application logs stopped being written
+- New file creation failing with ENOSPC error
+- Database entering read-only mode to prevent corruption
+- Backup jobs failing silently
+- Temporary files accumulating
+- Core dump files consuming large space
+- Docker overlay filesystem filling up
+
+LOG PATTERNS TO LOOK FOR:
+--------------------------
+- "Disk usage at XX.X% on volume /data"
+- "Failed to write log - no space left on device"
+- "Transaction log cannot grow - disk full"
+- "ENOSPC: no space left on device"
+- "Database entering read-only mode"
+- "Cannot create file - disk quota exceeded"
+- "Write failed: No space left on device"
+- "Checkpoint request failed due to lack of disk space"
+- "Error writing to file: disk full"
+- "Archive log destination /data/archive is full"
+
+COMMON ROOT CAUSES:
+-------------------
+1. Log files growing without rotation or retention policy
+2. Database transaction logs not being purged
+3. Backup files accumulating without cleanup
+4. Core dump files from crashed processes
+5. Temporary files not being cleaned up
+6. Docker images and containers accumulating
+7. Application generating excessive debug logs
+8. Large file uploads not being moved to object storage
+9. Database table without row limit growing indefinitely
+10. Audit logs retained beyond policy requirements
+11. Build artifacts not being cleaned up in CI/CD
+12. Snapshot files accumulating without deletion policy
+
+DIAGNOSTIC STEPS:
+-----------------
+1. Check overall disk usage:
+   df -h (all mount points)
+   df -h /data (specific volume)
+
+2. Find largest directories:
+   du -sh /* 2>/dev/null | sort -rh | head -20
+   du -sh /var/log/* | sort -rh | head -10
+
+3. Find largest files:
+   find / -type f -size +1G 2>/dev/null
+   find /var/log -type f -name "*.log" -size +100M
+
+4. Check for deleted files still held open:
+   lsof | grep deleted | sort -k7 -rn | head -20
+
+5. Check inode usage (can be full even with space):
+   df -i
+
+6. Check database log size:
+   PostgreSQL: SELECT pg_size_pretty(pg_database_size('dbname'));
+   MySQL: SELECT table_schema, sum(data_length+index_length)/1024/1024
+          FROM information_schema.tables GROUP BY table_schema;
+
+7. Check Docker space usage:
+   docker system df
+
+IMMEDIATE REMEDIATION STEPS:
+-----------------------------
+Step 1 (0-2 min): Emergency space recovery
+  - Find and remove large unnecessary files immediately
+  - Clear old log files (keep last 24 hours minimum):
+    find /var/log -name "*.log" -mtime +7 -delete
+  - Clear temporary files:
+    rm -rf /tmp/* /var/tmp/*
+  - Clear package manager cache:
+    apt-get clean (Ubuntu)
+    yum clean all (CentOS)
+
+Step 2 (2-5 min): Database specific recovery
+  - PostgreSQL: Run VACUUM to reclaim space
+  - MySQL: Purge binary logs: PURGE BINARY LOGS BEFORE NOW();
+  - Check and truncate oversized tables if safe to do so
+  - Move database archives to separate volume
+
+Step 3 (5-15 min): Application recovery
+  - Restart services that entered read-only mode
+  - Verify database is accepting writes again
+  - Check application logs are being written
+  - Verify backup jobs can run
+
+Step 4 (15-60 min): Prevent recurrence
+  - Implement log rotation with logrotate
+  - Set up automated cleanup scripts
+  - Move logs to dedicated log volume
+  - Implement disk usage monitoring with alerts
+
+PREVENTION:
+-----------
+- Implement log rotation for ALL application logs (daily, keep 30 days)
+- Set up automated disk usage alerts at 70% (warn) and 85% (critical)
+- Use separate volumes for OS, application, logs, and database
+- Implement automated cleanup for temp files (cron job)
+- Set database transaction log retention policy
+- Use object storage (S3) for large files and uploads
+- Regular Docker cleanup: docker system prune -af
+- Implement disk quota per application/service
+- Monitor inode usage separately from disk space
+- Archive old data to cold storage automatically
+
+ESCALATION:
+-----------
+- If disk above 95% → immediate P1, all hands on deck
+- If database entered read-only mode → engage DBA immediately
+- If data corruption suspected → stop all writes, engage data team
+- If multiple volumes affected → engage infrastructure team
+
+RESOLUTION TIME: 5-15 minutes for immediate fix
+RECURRENCE RISK: HIGH without automated cleanup
+BUSINESS IMPACT: CRITICAL - data loss and corruption risk
