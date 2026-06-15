@@ -2914,58 +2914,7 @@ streamlit run dashboard.py --server.port 8502 > /workspace/shared/dashboard.log 
 sleep 3
 echo "=== Dashboard started ==="
 
-# Start vLLM server (optional - alternative high-throughput LLM backend)
-# Uses /root (overlay, non-persistent) for venv + HF cache to avoid
-# consuming the limited /workspace/shared persistent quota.
-echo ""
-echo "=== Starting vLLM server (Qwen2.5-7B-Instruct) ==="
 
-VLLM_ENV="/root/vllm_env"
-HF_CACHE_DIR="/root/hf_cache"
-VLLM_MODEL="Qwen/Qwen2.5-7B-Instruct"
-VLLM_LOG="/root/vllm_server.log"
-
-if [ ! -d "$VLLM_ENV" ]; then
-    echo "=== Creating vLLM venv (overlay, ~5-7 min) ==="
-    python3 -m venv "$VLLM_ENV"
-    source "$VLLM_ENV/bin/activate"
-    pip install --upgrade pip --quiet
-    pip install vllm==0.15.0+rocm700 --extra-index-url https://wheels.vllm.ai/rocm/0.15.0/rocm700 --quiet
-    deactivate
-    echo "=== vLLM venv created ==="
-fi
-
-if ! ldconfig -p | grep -q libmpi_cxx; then
-    echo "=== Installing OpenMPI runtime ==="
-    apt-get update -q && apt-get install -y libopenmpi-dev openmpi-bin --quiet
-fi
-
-PROM_ROUTING="$VLLM_ENV/lib/python3.12/site-packages/prometheus_fastapi_instrumentator/routing.py"
-if [ -f "$PROM_ROUTING" ]; then
-    python3 /workspace/shared/incident_agent/scripts/patch_prometheus.py "$PROM_ROUTING"
-fi
-
-mkdir -p "$HF_CACHE_DIR"
-export HF_HOME="$HF_CACHE_DIR"
-export HUGGINGFACE_HUB_CACHE="$HF_CACHE_DIR"
-
-if curl -s http://localhost:8000/v1/models > /dev/null 2>&1; then
-    echo "=== vLLM server already running ==="
-else
-    source "$VLLM_ENV/bin/activate"
-    setsid nohup vllm serve "$VLLM_MODEL" \
-      --port 8000 \
-      --dtype auto \
-      --max-model-len 8192 \
-      --gpu-memory-utilization 0.85 \
-      > "$VLLM_LOG" 2>&1 < /dev/null &
-    disown
-    deactivate
-    echo "=== vLLM server starting in background (PID: $!) ==="
-    echo "    Model: $VLLM_MODEL (downloads to overlay on first run, ~15GB)"
-    echo "    Check status: tail -f $VLLM_LOG"
-    echo "    Or test: curl http://localhost:8000/v1/models"
-fi
 
 # Verify everything
 echo ""
@@ -2996,13 +2945,6 @@ echo ""
 echo "IMPORTANT: For HITL approvals to auto-trigger remediation, run in a"
 echo "separate terminal:"
 echo "  python3 hitl_processor.py"
-echo ""
-echo "vLLM server (alternative high-throughput LLM backend, Qwen2.5-7B):"
-echo "  Status : curl http://localhost:8000/v1/models"
-echo "  Logs   : tail -f /root/vllm_server.log"
-echo "  Note   : venv + model cache on overlay (/root) - not persistent,"
-echo "           reinstalls/redownloads each session (~5-10 min total)"
-
 
 ==================================================
 FILE: ./simulator/incident_simulator.py
